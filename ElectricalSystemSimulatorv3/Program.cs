@@ -10,15 +10,16 @@ namespace ElectricalSystemSimulatorv3
     {
         static void Main(string[] args)
         {
+            // Example script
             ElectricalEnvironment env = new ElectricalEnvironment();
-            var dev1 = env.CreateDevice();
-            var dev2 = env.CreateDevice();
+            var dev1 = env.CreateDevice("dev1");
+            var dev2 = env.CreateDevice("dev2");
             env.ConnectDevices(dev1, dev2);
             var dev3 = env.CreateDevice();
             var dev4 = env.CreateDevice();
             env.ConnectDevices(dev3, dev4);
             print_update(env);
-            var sw1 = env.CreateSwitch();
+            var sw1 = env.CreateSwitch("sw1");
             print_update(env);
             env.ConnectDevices(sw1.FirstContact, dev2);
             env.ConnectDevices(sw1.SecondContact, dev3);
@@ -27,17 +28,15 @@ namespace ElectricalSystemSimulatorv3
             print_update(env);
             sw1.SwitchState = false;
             print_update(env);
-
-
-            
         }
+
         static string PrintDevices(ElectricalEnvironment env)
         {
             var sb = new StringBuilder();
             sb.Append("Devices = [ ");
             foreach(var dev in env.Devices)
             {
-                sb.Append("D" + dev.GetHashCode().ToString() + ", ");
+                sb.Append(getDeviceName(dev) + ", ");
             }
             sb.Append("]");
             return sb.ToString();
@@ -52,7 +51,7 @@ namespace ElectricalSystemSimulatorv3
                 sb.Append("N" + net.GetHashCode().ToString() + " = [ ");
                 foreach(var dev in net.Devices)
                 {
-                    sb.Append("D" + dev.GetHashCode().ToString() + ", ");
+                    sb.Append(getDeviceName(dev) + ", ");
                 }
                 sb.Append("]\n");
             }
@@ -67,7 +66,8 @@ namespace ElectricalSystemSimulatorv3
             sb.Append("Switches = {\n");
             foreach (var sw in swList)
             {
-                sb.Append("S" + sw.GetHashCode().ToString() + " = { " + "D" + sw.FirstContact.GetHashCode().ToString() + ", " + "D" + sw.SecondContact.GetHashCode().ToString() + " }\n");
+                sb.Append(getSwitchName(sw) + ", ");
+                sb.Append(" = { " + getDeviceName(sw.FirstContact) + ", " + getDeviceName(sw.SecondContact) + " }\n");
             }
             sb.Append("}");
             return sb.ToString();
@@ -79,6 +79,17 @@ namespace ElectricalSystemSimulatorv3
             Console.WriteLine(PrintDevices(env) + "\n");
             Console.WriteLine(PrintSwitches(env) + "\n");
             Console.WriteLine(PrintNetworks(env) + "\n");
+        }
+
+        static string getDeviceName (ElectricalDevice dev)
+        {
+            if (dev.Name != "") return dev.Name;
+            return "D" + dev.GetHashCode().ToString();
+        }
+        static string getSwitchName(ElectricalSwitch sw)
+        {
+            if (sw.Name != "") return sw.Name;
+            return "S" + sw.GetHashCode().ToString();
         }
     }
 }

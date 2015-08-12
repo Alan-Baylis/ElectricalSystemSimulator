@@ -8,6 +8,7 @@ namespace ElectricalSystemSimulatorv3
 {
     public class ElectricalDevice
     {
+        private string name;
         private List<ElectricalDevice> connectedDevices;
         private int powerConsumption;
 
@@ -20,10 +21,16 @@ namespace ElectricalSystemSimulatorv3
         {
             get { return connectedDevices; }
         }
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
         // Constructor
-        public ElectricalDevice ()
+        public ElectricalDevice (string name_c = "")
         {
+            name = name_c;
             connectedDevices = new List<ElectricalDevice>();
             powerConsumption = 0;
         }

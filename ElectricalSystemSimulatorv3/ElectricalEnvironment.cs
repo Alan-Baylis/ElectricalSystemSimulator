@@ -36,9 +36,9 @@ namespace ElectricalSystemSimulatorv3
         }
 
         // Device Management Methods
-        public ElectricalDevice CreateDevice()
+        public ElectricalDevice CreateDevice(string deviceName = "")
         {
-            var newDevice = new ElectricalDevice();
+            var newDevice = new ElectricalDevice(deviceName);
             devices.Add(newDevice);
             return newDevice;
         }
@@ -86,12 +86,12 @@ namespace ElectricalSystemSimulatorv3
         }
 
         // Switch Management Methods
-        public ElectricalSwitch CreateSwitch()
+        public ElectricalSwitch CreateSwitch(string swName = "")
         {
-            var newSwitch = new ElectricalSwitch();
+            var newSwitch = new ElectricalSwitch(swName);
             switches.Add(newSwitch);
-            newSwitch.FirstContact = CreateDevice();
-            newSwitch.SecondContact = CreateDevice();
+            newSwitch.FirstContact = CreateDevice(swName+"[c1]");
+            newSwitch.SecondContact = CreateDevice(swName+"[c2]");
             return newSwitch;
         }
         public void RemoveSwitch (ElectricalSwitch sw)

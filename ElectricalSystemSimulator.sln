@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalSystemUI", "Elect
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalSystemSimulatorv3", "ElectricalSystemSimulatorv3\ElectricalSystemSimulatorv3.csproj", "{D44A97D8-3B01-428D-AEF1-E197DFED2B35}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalSystemSimulatorv3_GUI", "ElectricalSystemSimulatorv3_GUI\ElectricalSystemSimulatorv3_GUI.csproj", "{F3D96F98-24E5-43F7-9023-0458E5C1C431}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D44A97D8-3B01-428D-AEF1-E197DFED2B35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D44A97D8-3B01-428D-AEF1-E197DFED2B35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D44A97D8-3B01-428D-AEF1-E197DFED2B35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3D96F98-24E5-43F7-9023-0458E5C1C431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3D96F98-24E5-43F7-9023-0458E5C1C431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3D96F98-24E5-43F7-9023-0458E5C1C431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3D96F98-24E5-43F7-9023-0458E5C1C431}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
