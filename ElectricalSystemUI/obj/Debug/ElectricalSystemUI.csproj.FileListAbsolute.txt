@@ -1,0 +1,9 @@
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\bin\Debug\ElectricalSystemUI.exe.config
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\bin\Debug\ElectricalSystemUI.exe
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\bin\Debug\ElectricalSystemUI.pdb
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\obj\Debug\ElectricalSystemUI.csprojResolveAssemblyReference.cache
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\obj\Debug\ElectricalSystemUI.Form1.resources
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\obj\Debug\ElectricalSystemUI.Properties.Resources.resources
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\obj\Debug\ElectricalSystemUI.csproj.GenerateResource.Cache
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\obj\Debug\ElectricalSystemUI.exe
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemUI\obj\Debug\ElectricalSystemUI.pdb

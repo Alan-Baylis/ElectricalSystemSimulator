@@ -1,0 +1,3 @@
+devadd gen1 1000
+devadd dev1 -5
+reladd rel1 -20 1 dev1 gen1 dev1

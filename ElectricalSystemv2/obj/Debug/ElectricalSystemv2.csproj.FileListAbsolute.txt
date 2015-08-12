@@ -1,0 +1,12 @@
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemv2\bin\Debug\ElectricalSystemv2.exe.config
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemv2\bin\Debug\ElectricalSystemv2.exe
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemv2\bin\Debug\ElectricalSystemv2.pdb
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemv2\obj\Debug\ElectricalSystemv2.csprojResolveAssemblyReference.cache
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemv2\obj\Debug\ElectricalSystemv2.exe
+C:\other\ElectricalSystemSimulator\ElectricalSystemSimulator\ElectricalSystemv2\obj\Debug\ElectricalSystemv2.pdb
+C:\Users\Hazim\Dropbox\C#\ElectricalSystemSimulator\ElectricalSystemv2\bin\Debug\ElectricalSystemv2.exe.config
+C:\Users\Hazim\Dropbox\C#\ElectricalSystemSimulator\ElectricalSystemv2\obj\Debug\ElectricalSystemv2.exe
+C:\Users\Hazim\Dropbox\C#\ElectricalSystemSimulator\ElectricalSystemv2\obj\Debug\ElectricalSystemv2.pdb
+C:\Users\Hazim\Dropbox\C#\ElectricalSystemSimulator\ElectricalSystemv2\bin\Debug\ElectricalSystemv2.exe
+C:\Users\Hazim\Dropbox\C#\ElectricalSystemSimulator\ElectricalSystemv2\bin\Debug\ElectricalSystemv2.pdb
+C:\Users\Hazim\Dropbox\C#\ElectricalSystemSimulator\ElectricalSystemv2\obj\Debug\ElectricalSystemv2.csprojResolveAssemblyReference.cache
