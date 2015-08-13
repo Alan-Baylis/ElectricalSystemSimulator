@@ -28,9 +28,10 @@ namespace ElectricalSystemSimulatorv3
         }
 
         // Constructor
-        public ElectricalDevice (string name_c = "")
+        public ElectricalDevice (string name_c = null)
         {
-            name = name_c;
+            if (!string.IsNullOrEmpty(name_c)) { name = name_c; }
+            else { name = "D" + this.GetHashCode().ToString(); }
             connectedDevices = new List<ElectricalDevice>();
             powerConsumption = 0;
         }

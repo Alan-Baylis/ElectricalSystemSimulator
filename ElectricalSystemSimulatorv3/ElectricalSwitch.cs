@@ -36,9 +36,10 @@ namespace ElectricalSystemSimulatorv3
         }
 
         // constructor
-        public ElectricalSwitch (string name_c = "")
+        public ElectricalSwitch (string name_c = null)
         {
-            name = name_c;
+            if (!string.IsNullOrEmpty(name_c)) name = name_c;
+            else name = "S" + this.GetHashCode().ToString();
             firstContact = new ElectricalDevice();
             secondContact = new ElectricalDevice();
             switchState = false;

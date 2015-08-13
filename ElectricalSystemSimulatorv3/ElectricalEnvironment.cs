@@ -36,8 +36,12 @@ namespace ElectricalSystemSimulatorv3
         }
 
         // Device Management Methods
-        public ElectricalDevice CreateDevice(string deviceName = "")
+        public ElectricalDevice CreateDevice(string deviceName = null)
         {
+            if(FindDeviceByName(deviceName) != null)
+            {
+                return null;
+            }
             var newDevice = new ElectricalDevice(deviceName);
             devices.Add(newDevice);
             return newDevice;
@@ -84,10 +88,46 @@ namespace ElectricalSystemSimulatorv3
                 }
             }
         }
+        public ElectricalDevice FindDeviceByName (string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return null;
+            ElectricalDevice device = null;
+            name = name.ToLower();
+            var allDevices = devices;
+            // Try to find an exact match first
+            foreach (var d in allDevices)
+            {
+                if (d.Name == name)
+                {
+                    if (device != null)
+                        return null; // Not unique
+                    device = d;
+                }
+            }
+            if (device != null)
+                return device;
+            // Otherwise try to find a partial match
+            foreach (var d in allDevices)
+            {
+                if (d.Name.ToLower().IndexOf(name) >= 0)
+                {
+                    if (device != null)
+                        return null; // Not unique
+                    device = d;
+                }
+            }
+            return device;
+        
+        }
 
         // Switch Management Methods
-        public ElectricalSwitch CreateSwitch(string swName = "")
+        public ElectricalSwitch CreateSwitch(string swName = null)
         {
+            if (FindSwitchByName(swName) != null)
+            {
+                return null;
+            }
             var newSwitch = new ElectricalSwitch(swName);
             switches.Add(newSwitch);
             newSwitch.FirstContact = CreateDevice(swName+"[c1]");
@@ -102,6 +142,38 @@ namespace ElectricalSystemSimulatorv3
             }
             RemoveDevice(sw.FirstContact);
             RemoveDevice(sw.SecondContact);
+        }
+        public ElectricalSwitch FindSwitchByName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return null;
+            ElectricalSwitch mswitch = null;
+            name = name.ToLower();
+            var allSwitches = switches;
+            // Try to find an exact match first
+            foreach (var sw in allSwitches)
+            {
+                if (sw.Name == name)
+                {
+                    if (mswitch != null)
+                        return null; // Not unique
+                    mswitch = sw;
+                }
+            }
+            if (mswitch != null)
+                return mswitch;
+            // Otherwise try to find a partial match
+            foreach (var sw in allSwitches)
+            {
+                if (sw.Name.ToLower().IndexOf(name) >= 0)
+                {
+                    if (mswitch != null)
+                        return null; // Not unique
+                    mswitch = sw;
+                }
+            }
+            return mswitch;
+
         }
 
         // Network Management Methods
