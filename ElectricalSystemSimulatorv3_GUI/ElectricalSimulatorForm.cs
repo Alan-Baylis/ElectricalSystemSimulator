@@ -296,6 +296,17 @@ namespace ElectricalSystemSimulatorv3_GUI
                     #endregion
                     break;
                 default:
+                    ConsoleWriteLine("Available Commands:\n");
+                    ConsoleWriteLine("device add <deviceName> <powerConsumption>");
+                    ConsoleWriteLine("device remove <deviceName>");
+                    ConsoleWriteLine("device connect <device1Name> <device2Name>");
+                    ConsoleWriteLine("device disconnect <device1Name> <device2Name>");
+                    ConsoleWriteLine("switch add <switchName>");
+                    ConsoleWriteLine("switch remove <switchName>");
+                    ConsoleWriteLine("switch connect <switchName> <device1Name> <device2Name>");
+                    ConsoleWriteLine("switch disconnect <switchName> <deviceName>");
+                    ConsoleWriteLine("switch state <switchName> <\"on\"/\"off\">");
+                    ConsoleWriteLine("\nA valid script is text file containing the above commands in separate lines.");
                     break;
             }
             ConsoleWrite(sb.ToString() + Environment.NewLine);

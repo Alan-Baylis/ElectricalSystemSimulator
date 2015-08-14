@@ -50,31 +50,31 @@
             // 
             // textBoxCommandLine
             // 
-            this.textBoxCommandLine.Location = new System.Drawing.Point(12, 152);
+            this.textBoxCommandLine.Location = new System.Drawing.Point(12, 162);
             this.textBoxCommandLine.Name = "textBoxCommandLine";
             this.textBoxCommandLine.Size = new System.Drawing.Size(437, 22);
             this.textBoxCommandLine.TabIndex = 3;
             // 
             // buttonExecute
             // 
-            this.buttonExecute.Location = new System.Drawing.Point(12, 180);
+            this.buttonExecute.Location = new System.Drawing.Point(12, 190);
             this.buttonExecute.Name = "buttonExecute";
             this.buttonExecute.Size = new System.Drawing.Size(437, 23);
             this.buttonExecute.TabIndex = 4;
-            this.buttonExecute.Text = "Execute Command";
+            this.buttonExecute.Text = "Execute Command (Enter)";
             this.buttonExecute.UseVisualStyleBackColor = true;
             this.buttonExecute.Click += new System.EventHandler(this.buttonExecute_Click);
             // 
             // textBoxScriptFile
             // 
-            this.textBoxScriptFile.Location = new System.Drawing.Point(12, 266);
+            this.textBoxScriptFile.Location = new System.Drawing.Point(12, 420);
             this.textBoxScriptFile.Name = "textBoxScriptFile";
             this.textBoxScriptFile.Size = new System.Drawing.Size(301, 22);
             this.textBoxScriptFile.TabIndex = 5;
             // 
             // buttonLoadScriptFile
             // 
-            this.buttonLoadScriptFile.Location = new System.Drawing.Point(12, 294);
+            this.buttonLoadScriptFile.Location = new System.Drawing.Point(12, 448);
             this.buttonLoadScriptFile.Name = "buttonLoadScriptFile";
             this.buttonLoadScriptFile.Size = new System.Drawing.Size(137, 32);
             this.buttonLoadScriptFile.TabIndex = 6;
@@ -84,7 +84,7 @@
             // 
             // buttonBrowseScriptFile
             // 
-            this.buttonBrowseScriptFile.Location = new System.Drawing.Point(319, 265);
+            this.buttonBrowseScriptFile.Location = new System.Drawing.Point(319, 419);
             this.buttonBrowseScriptFile.Name = "buttonBrowseScriptFile";
             this.buttonBrowseScriptFile.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseScriptFile.TabIndex = 7;
