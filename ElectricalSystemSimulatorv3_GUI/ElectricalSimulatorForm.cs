@@ -295,7 +295,121 @@ namespace ElectricalSystemSimulatorv3_GUI
 
                     #endregion
                     break;
+                case "relay":
+                case "add":
+                    #region ElectricalRelay case
+
+                    if (cmdCnt == 1)
+                    {
+                        sb.Append("Invalid command.");
+                    }
+                    else
+                    {
+                        var arg1 = commandArgs[1];
+                        switch (arg1)
+                        {
+                            case "add":
+                                if (cmdCnt != 4) sb.Append("Invalid amount of arguments.");
+                                else
+                                {
+                                    var relayName = commandArgs[2];
+                                    var newRelay = env.CreateRelay(relayName);
+                                    var newRelayCoilPower = Int32.Parse(commandArgs[3]);
+                                    newRelay.Coil.PowerConsumption = newRelayCoilPower;
+                                    if (newRelay == null)
+                                    {
+                                        sb.Append("A relay with this name already exists.");
+                                    }
+                                    else
+                                    {
+                                        sb.Append("New relay \"" + newRelay.Name + "\" successfully created.");
+                                    }
+                                }
+                                break;
+                            case "remove":
+                                if (cmdCnt != 3) sb.Append("Invalid amount of arguments.");
+                                else
+                                {
+                                    var relayName = commandArgs[2];
+                                    if (env.FindSwitchByName(relayName) == null)
+                                    {
+                                        sb.Append("No such switch exists.");
+                                    }
+                                    else
+                                    {
+                                        var relay = (ElectricalRelay) env.FindSwitchByName(relayName);
+                                        env.RemoveRelay(relay);
+                                        sb.Append("Relay \"" + relay.Name + "\" has been deleted.");
+                                    }
+                                }
+                                break;
+                            case "connect":
+                                if (cmdCnt != 6) sb.Append("Invalid arguments.");
+                                else
+                                {
+                                    var relay   = (ElectricalRelay) env.FindSwitchByName(commandArgs[2]);
+                                    var dev1 = env.FindDeviceByName(commandArgs[3]);
+                                    var dev2 = env.FindDeviceByName(commandArgs[4]);
+                                    var devc = env.FindDeviceByName(commandArgs[5]);
+                                    if (relay == null) sb.Append("Switch does not exist.");
+                                    else if (dev1 == null) sb.Append("First device does not exist.");
+                                    else if (dev2 == null) sb.Append("Second device does not exist.");
+                                    else if (devc == null) sb.Append("Coil-connected device does not exist.");
+                                    else
+                                    {
+                                        env.ConnectDevices(relay.FirstContact, dev1);
+                                        env.ConnectDevices(relay.SecondContact, dev2);
+                                        env.ConnectDevices(relay.Coil, devc);
+                                        sb.Append("Switch " + relay.Name + " is now connecting " + dev1.Name + " and " + dev2.Name + ", with its coil connected to " + devc.Name + ".");
+                                    }
+                                }
+                                break;
+                            case "disconnect":
+                                if (cmdCnt != 4) sb.Append("Invalid arguments.");
+                                else
+                                {
+                                    var sw = (ElectricalRelay) env.FindSwitchByName(commandArgs[2]);
+                                    var dev = env.FindDeviceByName(commandArgs[3]);
+                                    if (sw == null) sb.Append("Switch does not exist.");
+                                    else if (dev == null) sb.Append("Device does not exist.");
+                                    else
+                                    {
+                                        var swContact = new ElectricalDevice();
+                                        if (dev.ConnectedDevices.Contains(sw.FirstContact))
+                                        {
+                                            swContact = sw.FirstContact;
+                                            env.DisconnectDevices(swContact, dev);
+                                            sb.Append(sw.FirstContact.Name + " was disconnected from " + dev.Name + ".");
+                                        }
+                                        else if (dev.ConnectedDevices.Contains(sw.SecondContact))
+                                        {
+                                            swContact = sw.SecondContact;
+                                            env.DisconnectDevices(swContact, dev);
+                                            sb.Append(sw.SecondContact.Name + " was disconnected from " + dev.Name + ".");
+                                        }
+                                        else if (dev.ConnectedDevices.Contains(sw.Coil))
+                                        {
+                                            swContact = sw.Coil;
+                                            env.DisconnectDevices(swContact, dev);
+                                            sb.Append(sw.Coil.Name + " was disconnected from " + dev.Name + ".");
+                                        }
+                                        else
+                                        {
+                                            sb.Append("Switch " + sw.Name + " and device " + dev.Name + " are not connected.");
+                                        }
+                                    }
+                                }
+                                break;
+                            default:
+                                sb.Append("Invalid command.");
+                                break;
+                        }
+                    }
+
+                    #endregion
+                    break;
                 default:
+                    #region Help Message
                     ConsoleWriteLine("Available Commands:\n");
                     ConsoleWriteLine("device add <deviceName> <powerConsumption>");
                     ConsoleWriteLine("device remove <deviceName>");
@@ -307,6 +421,7 @@ namespace ElectricalSystemSimulatorv3_GUI
                     ConsoleWriteLine("switch disconnect <switchName> <deviceName>");
                     ConsoleWriteLine("switch state <switchName> <\"on\"/\"off\">");
                     ConsoleWriteLine("\nA valid script is text file containing the above commands in separate lines.");
+                    #endregion
                     break;
             }
             ConsoleWrite(sb.ToString() + Environment.NewLine);

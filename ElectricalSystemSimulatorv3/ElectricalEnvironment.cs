@@ -181,15 +181,40 @@ namespace ElectricalSystemSimulatorv3
 
         }
 
+        // Relay Management Methods
+        public ElectricalRelay CreateRelay(string swName = null)
+        {
+            if (FindSwitchByName(swName) != null)
+            {
+                return null;
+            }
+            var newSwitch = new ElectricalRelay(swName);
+            switches.Add(newSwitch);
+            newSwitch.FirstContact = CreateDevice(swName + "(1)");
+            newSwitch.SecondContact = CreateDevice(swName + "(2)");
+            newSwitch.Coil = CreateDevice(swName + "(c)");
+            return newSwitch;
+        }
+        public void RemoveRelay(ElectricalRelay sw)
+        {
+            if (switches.Contains(sw))
+            {
+                switches.Remove(sw);
+            }
+            RemoveDevice(sw.FirstContact);
+            RemoveDevice(sw.SecondContact);
+            RemoveDevice(sw.Coil);
+        }
+
         // Network Management Methods
         public List<ElectricalNetwork> UpdateNetworks ()
         {
+            // Update Switches
+            UpdateSwitchContacts();
+
             var netList = new List<ElectricalNetwork>();
             Dictionary<ElectricalDevice, bool> P = new Dictionary<ElectricalDevice, bool>();
             N.Clear();
-
-            // Update Switches
-            UpdateSwitchContacts();
 
             // Initialize Processed and Lookup Tables
             foreach(var i in devices)
@@ -232,12 +257,38 @@ namespace ElectricalSystemSimulatorv3
         }
         public void UpdateSwitchContacts ()
         {
+            UpdateRelayContacts();
             if(switches.Count != 0)
             {
                 foreach(var sw in switches)
                 {
                     if (sw.SwitchState) { ConnectDevices(sw.FirstContact, sw.SecondContact); }
                     else { DisconnectDevices(sw.FirstContact, sw.SecondContact); }
+                }
+            }
+        }
+        public void UpdateRelayContacts ()
+        {
+            if (switches.Count != 0)
+            {
+                foreach (ElectricalSwitch sw in switches)
+                {
+                    if (sw is ElectricalRelay)
+                    {
+                        var r = (ElectricalRelay) sw;
+                        if (N.ContainsKey(r.Coil))
+                        {
+                            var coilNet = N[r.Coil];
+                            if (coilNet.NetPower > 0)
+                            {
+                                sw.SwitchState = true;
+                            }
+                            else
+                            {
+                                sw.SwitchState = false;
+                            }
+                        }
+                    }
                 }
             }
         }

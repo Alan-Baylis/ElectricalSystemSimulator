@@ -44,6 +44,7 @@
     <Compile Include="ElectricalDevice.cs" />
     <Compile Include="ElectricalEnvironment.cs" />
     <Compile Include="ElectricalNetwork.cs" />
+    <Compile Include="ElectricalRelay.cs" />
     <Compile Include="ElectricalSwitch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

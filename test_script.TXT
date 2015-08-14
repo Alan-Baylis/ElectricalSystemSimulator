@@ -1,10 +1,4 @@
-device add d1 100
-device add d2 -200
-device add d3 50
-device add d4 70
-switch add s1
-switch add s2
-device connect d1 d2
-device connect d3 d4
-switch connect s1 d1 d4
-switch connect s2 d2 d3
+device add d1 50
+device add d2 -100
+relay add r1 -10
+relay connect r1 d1 d2 d1
