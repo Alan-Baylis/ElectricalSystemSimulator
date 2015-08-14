@@ -9,7 +9,7 @@ The current iteration is v3.
 3. Use the included "test_script.txt" as an example script.
 
 # Basic Concepts
-Device: 
+<h1>Device:</h1> 
 building block of the Electrical system. Each device has a power consumption value (power rating). Positive power ratings generate power (in Watts). Negative power ratings consume power. Devices can be physically connected together to form Electrical Networks. Zero power devices are there to conduct electricity (a wire is a device with 0 power).
 
 Network: 
