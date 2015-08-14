@@ -11,6 +11,9 @@ Written in Visual C#.
 3. Use the included "test_script.txt" as an example script.
 
 # Basic Concepts
+
+<img src="https://raw.githubusercontent.com/apklemon/ElectricalSystemSimulator/master/Concept1_mod.png"></img>
+
 <h3>Device:</h3> 
 building block of the Electrical system. Each device has a power consumption value (power rating). Positive power ratings generate power (in Watts). Negative power ratings consume power. Devices can be physically connected together to form Electrical Networks. Zero power devices are there to conduct electricity (a wire is a device with 0 power).
 
@@ -22,3 +25,5 @@ A switch contains two contacts (zero power devices), with will physically connec
 
 <h3>Relay:</h3> 
 A switch that has a coil device (with a negative power rating). If the relay's coil is connected to a positive power electrical network, the relay will have a switch state of ON, otherwise it is OFF. Because the coil uses the network from the previous iteration, relays will be updated one cycle late.
+
+
