@@ -22,3 +22,5 @@ A switch contains two contacts (zero power devices), with will physically connec
 
 <h3>Relay:</h3> 
 A switch that has a coil device (with a negative power rating). If the relay's coil is connected to a positive power electrical network, the relay will have a switch state of ON, otherwise it is OFF. Because the coil uses the network from the previous iteration, relays will be updated one cycle late.
+
+<img src="https://raw.githubusercontent.com/apklemon/ElectricalSystemSimulator/master/Concept1_mod.png"></img>
