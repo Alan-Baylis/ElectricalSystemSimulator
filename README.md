@@ -1,10 +1,12 @@
 # ElectricalSystemSimulator
+
 A project to simulate a simple electrical simulation based on power output of the connected devices.
 Written in Visual C#.
 
 # Try it out!
-The current iteration is v3. 
-1. Open the solution in Visual Studio, and Set "ElectricalSystemSimulatorv3_GUI" as your Startup Project.
+
+1. Open the solution in Visual Studio
+2. Set "ElectricalSystemSimulatorv3_GUI" as your Startup Project.
 2. Type any invalid gibberish in the command line and hit Enter, and console should display valid commands.
 3. Use the included "test_script.txt" as an example script.
 
