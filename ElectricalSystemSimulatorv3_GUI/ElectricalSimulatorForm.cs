@@ -1,9 +1,16 @@
-﻿using ElectricalSystemSimulatorv3;
+﻿//*****************************************************
+// * Electrical System Simulator version 3
+// * By BodyweightEnergy
+// * Initial concept for Rust Experimental
+// * **************************************************
+
+using ElectricalSystemSimulatorv3;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,29 +21,45 @@ namespace ElectricalSystemSimulatorv3_GUI
     public partial class ElectricalSimulatorForm : Form
     {
         private ElectricalEnvironment env;
+        private List<string> scriptLines;
+        private List<string> commandLineHistory;
         public ElectricalSimulatorForm()
         {
             InitializeComponent();
+            this.ActiveControl = textBoxCommandLine;
             env = new ElectricalEnvironment();
+            scriptLines = new List<string>();
+            commandLineHistory = new List<string>();
             textBoxCommandLine.KeyUp += CommandLineKeyUp;
+            textBoxConsoleOutput.ReadOnly = true;
+            textBoxScriptFile.KeyUp += scriptFileKeyUp;
         }
 
         private void CommandLineKeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                CommandLineExecute();
+                ConsoleClear();
+                CommandLineExecute(textBoxCommandLine.Text);
+                textBoxCommandLine.Text = "";
+                print_update();
+                e.Handled = true;
+            }
+        }
+        private void scriptFileKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                buttonLoadScriptFile_Click(sender, e);
                 e.Handled = true;
             }
         }
 
         #region Command Line Parser
-        private void CommandLineExecute()
+        private void CommandLineExecute(string commandLineText)
         {
-            ConsoleClear();
             var sb = new StringBuilder();
-            var commandString = textBoxCommandLine.Text;
-            textBoxCommandLine.Text = "";
+            var commandString = commandLineText;
             var commandArgs = commandString.Split(' ','\t').ToList<string>();
             var command = commandArgs[0];
             var cmdCnt = commandArgs.Count;
@@ -55,11 +78,13 @@ namespace ElectricalSystemSimulatorv3_GUI
                         switch(arg1)
                         {
                             case "add":
-                                if (cmdCnt != 3) sb.Append("Invalid amount of arguments.");
+                                if (cmdCnt != 4) sb.Append("Invalid amount of arguments.");
                                 else
                                 {
                                     var deviceName = commandArgs[2];
                                     var newDevice = env.CreateDevice(deviceName);
+                                    var newDevicePower = Int32.Parse(commandArgs[3]);
+                                    newDevice.PowerConsumption = newDevicePower;
                                     if (newDevice == null)
                                     {
                                         sb.Append("A device with this name already exists.");
@@ -112,7 +137,6 @@ namespace ElectricalSystemSimulatorv3_GUI
                                         {
                                             env.ConnectDevices(dev1, dev2);
                                             sb.Append("Devices \"" + dev1Name + "\" and \"" + dev2Name + "\" are now connected.");
-                                            sb.Append("dev1.ConnectDevices[0]=" + dev1.ConnectedDevices[0].Name + ", dev2.ConnectedDevices[0]=" + dev2.ConnectedDevices[0].Name);
                                         }
                                     }
                                 }
@@ -205,8 +229,63 @@ namespace ElectricalSystemSimulatorv3_GUI
                                 }
                                 break;
                             case "disconnect":
+                                if (cmdCnt != 4) sb.Append("Invalid arguments.");
+                                else
+                                {
+                                    var sw = env.FindSwitchByName(commandArgs[2]);
+                                    var dev = env.FindDeviceByName(commandArgs[3]);
+                                    if (sw == null) sb.Append("Switch does not exist.");
+                                    else if (dev == null) sb.Append("Device does not exist.");
+                                    else
+                                    {
+                                        var swContact = new ElectricalDevice();
+                                        if(dev.ConnectedDevices.Contains(sw.FirstContact))
+                                        {
+                                            swContact = sw.FirstContact;
+                                            env.DisconnectDevices(swContact, dev);
+                                            sb.Append("Switch " + sw.Name + " was disconnected from " + dev.Name + ".");
+                                        }
+                                        else if(dev.ConnectedDevices.Contains(sw.SecondContact))
+                                        {
+                                            swContact = sw.SecondContact;
+                                            env.DisconnectDevices(swContact, dev);
+                                            sb.Append("Switch " + sw.Name + " was disconnected from " + dev.Name + ".");
+                                        }
+                                        else
+                                        {
+                                            sb.Append("Switch " + sw.Name + " and device " + dev.Name + " are not connected.");
+                                        }
+                                    }
+                                }
                                 break;
                             case "state":
+                                if (cmdCnt != 4) sb.Append("Invalid arguments.");
+                                else
+                                {
+                                    var sw = env.FindSwitchByName(commandArgs[2]);
+                                    var stateArg = commandArgs[3];
+                                    if(sw == null)
+                                    {
+                                        sb.Append("Switch does not exist.");
+                                    }
+                                    else
+                                    {
+                                        if (stateArg == "on")
+                                        {
+                                            sw.SwitchState = true;
+                                            sb.Append("Switch " + sw.Name + " is now set to ON.");
+                                        }
+                                        else if (stateArg == "off")
+                                        {
+                                            sw.SwitchState = false;
+                                            sb.Append("Switch " + sw.Name + " is now set to OFF.");
+                                        }
+                                        else
+                                        {
+                                            sb.Append("Invalid arguments.");
+                                        }
+                                    }
+                                }
                                 break;
                             default:
                                 sb.Append("Invalid command.");
@@ -220,18 +299,21 @@ namespace ElectricalSystemSimulatorv3_GUI
                     break;
             }
             ConsoleWrite(sb.ToString() + Environment.NewLine);
-            print_update();
             
         }
         #endregion
 
         private void ConsoleWrite(string text)
         {
-            textBoxConsoleOutput.Text += text;
+            textBoxConsoleOutput.AppendText(text);
+            textBoxConsoleOutput.SelectionStart = textBoxConsoleOutput.Text.Length;
+            textBoxConsoleOutput.ScrollToCaret();
         }
         private void ConsoleWriteLine(string text)
         {
-            textBoxConsoleOutput.Text += text + Environment.NewLine;
+            textBoxConsoleOutput.AppendText(text + Environment.NewLine);
+            textBoxConsoleOutput.SelectionStart = textBoxConsoleOutput.Text.Length;
+            textBoxConsoleOutput.ScrollToCaret();
         }
         private void ConsoleClear()
         {
@@ -256,7 +338,7 @@ namespace ElectricalSystemSimulatorv3_GUI
             sb.Append("Networks = {" + Environment.NewLine);
             foreach (var net in netList)
             {
-                sb.Append("N" + net.GetHashCode().ToString() + " = [ ");
+                sb.Append("N" + net.GetHashCode().ToString() + " ("+ net.NetGenerativePower + " -> " + net.NetConsumingPower +")= [ ");
                 foreach (var dev in net.Devices)
                 {
                     sb.Append(getDeviceName(dev) + ", ");
@@ -286,9 +368,11 @@ namespace ElectricalSystemSimulatorv3_GUI
             var sb = new StringBuilder();
             var lookup = env.DeviceLookup;
             sb.Append("Lookup:" + Environment.NewLine);
+            sb.Append("Device\tNetwork\t\tPower" + Environment.NewLine);
+            sb.Append("------\t-------\t\t-----" + Environment.NewLine);
             foreach(var pair in lookup)
             {
-                sb.Append(getDeviceName(pair.Key) + ":\tN" + pair.Value.GetHashCode() + Environment.NewLine);
+                sb.Append(getDeviceName(pair.Key) + "\tN" + pair.Value.GetHashCode().ToString("00000000") + "\t" + pair.Key.PowerConsumption.ToString() + Environment.NewLine);
             }
             sb.Append(Environment.NewLine);
             return sb.ToString();
@@ -296,7 +380,6 @@ namespace ElectricalSystemSimulatorv3_GUI
         private void print_update()
         {
             ConsoleWriteLine("******************************************************" + Environment.NewLine);
-            ConsoleWriteLine(PrintDevices() + Environment.NewLine);
             ConsoleWriteLine(PrintSwitches() + Environment.NewLine);
             ConsoleWriteLine(PrintNetworks() + Environment.NewLine);
             ConsoleWriteLine(PrintLookup() + Environment.NewLine);
@@ -313,12 +396,64 @@ namespace ElectricalSystemSimulatorv3_GUI
 
         private void buttonExecute_Click(object sender, EventArgs e)
         {
-            CommandLineExecute();
+            ConsoleClear();
+            CommandLineExecute(textBoxCommandLine.Text);
+            textBoxCommandLine.Text = "";
+            print_update();
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
             print_update();
+        }
+
+        private void buttonBrowseScriptFile_Click(object sender, EventArgs e)
+        {
+            int size = -1;
+            DialogResult result = openScriptFileDialog.ShowDialog(); // Show the dialog.
+            if (result == DialogResult.OK) // Test result.
+            {
+                string file = openScriptFileDialog.FileName;
+                textBoxScriptFile.Text = file;
+                try
+                {
+                    string text = File.ReadAllText(file);
+                    size = text.Length;
+                }
+                catch (IOException)
+                {
+                    ConsoleWriteLine("Invalid script filename.");
+                }
+            }
+        }
+
+        private void loadScriptFile (string filetext)
+        {
+            scriptLines.Clear();
+            scriptLines = filetext.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList<string>();
+        }
+        private void executeScriptFile()
+        {
+            ConsoleClear();
+            foreach(var line in scriptLines)
+            {
+                CommandLineExecute(line);
+            }
+            print_update();
+        }
+
+        private void buttonLoadScriptFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var text = File.ReadAllText(textBoxScriptFile.Text);
+                loadScriptFile(text);
+                executeScriptFile();
+            }
+            catch (Exception ex)
+            {
+                ConsoleWriteLine("Invalid script filename.");
+            }
         }
     }
 }

@@ -1,4 +1,9 @@
-﻿using System;
+﻿//*****************************************************
+// * Electrical System Simulator version 3
+// * By BodyweightEnergy
+// * Initial concept for Rust Experimental
+// * **************************************************
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +36,7 @@ namespace ElectricalSystemSimulatorv3
         public ElectricalDevice (string name_c = null)
         {
             if (!string.IsNullOrEmpty(name_c)) { name = name_c; }
-            else { name = "D" + this.GetHashCode().ToString(); }
+            else { name = "D" + this.GetHashCode().ToString("00000000"); }
             connectedDevices = new List<ElectricalDevice>();
             powerConsumption = 0;
         }

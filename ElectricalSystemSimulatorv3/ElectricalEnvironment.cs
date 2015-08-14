@@ -1,4 +1,9 @@
-﻿using System;
+﻿//*****************************************************
+// * Electrical System Simulator version 3
+// * By BodyweightEnergy
+// * Initial concept for Rust Experimental
+// * **************************************************
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -130,8 +135,8 @@ namespace ElectricalSystemSimulatorv3
             }
             var newSwitch = new ElectricalSwitch(swName);
             switches.Add(newSwitch);
-            newSwitch.FirstContact = CreateDevice(swName+"[c1]");
-            newSwitch.SecondContact = CreateDevice(swName+"[c2]");
+            newSwitch.FirstContact = CreateDevice(swName+"(c1)");
+            newSwitch.SecondContact = CreateDevice(swName+"(c2)");
             return newSwitch;
         }
         public void RemoveSwitch (ElectricalSwitch sw)

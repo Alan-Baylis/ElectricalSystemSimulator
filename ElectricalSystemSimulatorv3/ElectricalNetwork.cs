@@ -1,4 +1,9 @@
-﻿using System;
+﻿//*****************************************************
+// * Electrical System Simulator version 3
+// * By BodyweightEnergy
+// * Initial concept for Rust Experimental
+// * **************************************************
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
