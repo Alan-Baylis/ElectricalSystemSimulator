@@ -182,20 +182,20 @@ namespace ElectricalSystemSimulatorv3
         }
 
         // Relay Management Methods
-        public ElectricalRelay CreateRelay(string swName = null)
+        public ElectricalRelaySPST CreateRelay(string swName = null)
         {
             if (FindSwitchByName(swName) != null)
             {
                 return null;
             }
-            var newSwitch = new ElectricalRelay(swName);
+            var newSwitch = new ElectricalRelaySPST(swName);
             switches.Add(newSwitch);
             newSwitch.FirstContact = CreateDevice(swName + "(1)");
             newSwitch.SecondContact = CreateDevice(swName + "(2)");
             newSwitch.Coil = CreateDevice(swName + "(c)");
             return newSwitch;
         }
-        public void RemoveRelay(ElectricalRelay sw)
+        public void RemoveRelay(ElectricalRelaySPST sw)
         {
             if (switches.Contains(sw))
             {
@@ -273,19 +273,19 @@ namespace ElectricalSystemSimulatorv3
             {
                 foreach (ElectricalSwitch sw in switches)
                 {
-                    if (sw is ElectricalRelay)
+                    if (sw is ElectricalRelaySPST)
                     {
-                        var r = (ElectricalRelay) sw;
+                        var r = (ElectricalRelaySPST) sw;
                         if (N.ContainsKey(r.Coil))
                         {
                             var coilNet = N[r.Coil];
                             if (coilNet.NetPower > 0)
                             {
-                                sw.SwitchState = true;
+                                sw.SwitchState = !r.NormallyClosed;
                             }
                             else
                             {
-                                sw.SwitchState = false;
+                                sw.SwitchState = r.NormallyClosed;
                             }
                         }
                     }

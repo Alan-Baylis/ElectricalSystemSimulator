@@ -1,4 +1,4 @@
 device add d1 50
 device add d2 -100
-relay add r1 -10
+relay add r1 -10 true
 relay connect r1 d1 d2 d1

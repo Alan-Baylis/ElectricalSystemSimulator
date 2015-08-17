@@ -309,13 +309,15 @@ namespace ElectricalSystemSimulatorv3_GUI
                         switch (arg1)
                         {
                             case "add":
-                                if (cmdCnt != 4) sb.Append("Invalid amount of arguments.");
+                                if (cmdCnt != 5) sb.Append("Invalid amount of arguments.");
                                 else
                                 {
                                     var relayName = commandArgs[2];
                                     var newRelay = env.CreateRelay(relayName);
                                     var newRelayCoilPower = Int32.Parse(commandArgs[3]);
+                                    var newRelayNormallyClosed = bool.Parse(commandArgs[4]);
                                     newRelay.Coil.PowerConsumption = newRelayCoilPower;
+                                    newRelay.NormallyClosed = newRelayNormallyClosed;
                                     if (newRelay == null)
                                     {
                                         sb.Append("A relay with this name already exists.");
@@ -337,7 +339,7 @@ namespace ElectricalSystemSimulatorv3_GUI
                                     }
                                     else
                                     {
-                                        var relay = (ElectricalRelay) env.FindSwitchByName(relayName);
+                                        var relay = (ElectricalRelaySPST) env.FindSwitchByName(relayName);
                                         env.RemoveRelay(relay);
                                         sb.Append("Relay \"" + relay.Name + "\" has been deleted.");
                                     }
@@ -347,7 +349,7 @@ namespace ElectricalSystemSimulatorv3_GUI
                                 if (cmdCnt != 6) sb.Append("Invalid arguments.");
                                 else
                                 {
-                                    var relay   = (ElectricalRelay) env.FindSwitchByName(commandArgs[2]);
+                                    var relay   = (ElectricalRelaySPST) env.FindSwitchByName(commandArgs[2]);
                                     var dev1 = env.FindDeviceByName(commandArgs[3]);
                                     var dev2 = env.FindDeviceByName(commandArgs[4]);
                                     var devc = env.FindDeviceByName(commandArgs[5]);
@@ -368,7 +370,7 @@ namespace ElectricalSystemSimulatorv3_GUI
                                 if (cmdCnt != 4) sb.Append("Invalid arguments.");
                                 else
                                 {
-                                    var sw = (ElectricalRelay) env.FindSwitchByName(commandArgs[2]);
+                                    var sw = (ElectricalRelaySPST) env.FindSwitchByName(commandArgs[2]);
                                     var dev = env.FindDeviceByName(commandArgs[3]);
                                     if (sw == null) sb.Append("Switch does not exist.");
                                     else if (dev == null) sb.Append("Device does not exist.");
@@ -420,6 +422,10 @@ namespace ElectricalSystemSimulatorv3_GUI
                     ConsoleWriteLine("switch connect <switchName> <device1Name> <device2Name>");
                     ConsoleWriteLine("switch disconnect <switchName> <deviceName>");
                     ConsoleWriteLine("switch state <switchName> <\"on\"/\"off\">");
+                    ConsoleWriteLine("relay add <relayName> <coilPower> <normallyClose[true/false]>");
+                    ConsoleWriteLine("relay remove <relayName>");
+                    ConsoleWriteLine("relay connect <relayName> <device1Name> <device2Name>");
+                    ConsoleWriteLine("relay disconnect <switchName> <deviceName>");
                     ConsoleWriteLine("\nA valid script is text file containing the above commands in separate lines.");
                     #endregion
                     break;

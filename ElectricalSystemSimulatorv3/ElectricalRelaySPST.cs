@@ -6,21 +6,27 @@ using System.Threading.Tasks;
 
 namespace ElectricalSystemSimulatorv3
 {
-    public class ElectricalRelay : ElectricalSwitch
+    public class ElectricalRelaySPST : ElectricalSwitch
     {
         private ElectricalDevice relayCoil;
-
+        private bool normallyClosed;
         public ElectricalDevice Coil
         {
             get { return relayCoil; }
             set { relayCoil = value; }
         }
+        public bool NormallyClosed
+        {
+            get { return normallyClosed; }
+            set { normallyClosed = value; }
+        }
 
         // Constructor
-        public ElectricalRelay(string name_c = null)
+        public ElectricalRelaySPST(string name_c = null)
             : base(name_c)
         {
             relayCoil = new ElectricalDevice();
+            normallyClosed = false;
         }
     }
 }
